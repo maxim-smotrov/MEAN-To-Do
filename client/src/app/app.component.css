@@ -2,3 +2,16 @@
   color: #838383;
   text-decoration: #616161 line-through;
 }
+
+.task-list .task-item .actions {
+  visibility: hidden;
+}
+
+.task-list .task-item:hover .actions {
+  visibility: visible;
+}
+
+.task-list .task-item .actions i:hover {
+  color: #007bff;
+  cursor: pointer;
+}

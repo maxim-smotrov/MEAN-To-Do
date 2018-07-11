@@ -28,7 +28,7 @@ app.get('/tasks', (req, res) => {
 app.post('/tasks', (req, res) => {
   const Task = mongoose.model('Task');
   const newTask = { ...req.body, dateUpdated: Date.now() };
-  Task.create(newTask).then(() => res.status(201).send());
+  Task.create(newTask).then(task => res.status(201).json(task));
 });
 app.put('/tasks/:id', (req, res) => {
   const Task = mongoose.model('Task');

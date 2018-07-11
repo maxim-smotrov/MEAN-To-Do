@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TaskService } from './services/task.service';
 import Task from './models/task';
 
@@ -7,10 +7,12 @@ import Task from './models/task';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'MEAN To Do';
   tasks: Task[] = [];
-  taskDescription: string;
+  editing: boolean = false;
+  taskDescription: string = '';
+  taskBeingEdited: Task = null;
 
   constructor(
     private taskService: TaskService,
@@ -22,9 +24,35 @@ export class AppComponent {
 
   onAddClick(): void {
     const task: Task = { description: this.taskDescription, completed: false };
-    this.taskService.create(task).subscribe(() => {
-      this.tasks.unshift(task);
+    this.taskService.create(task).subscribe((createdTask) => {
+      this.tasks.unshift(createdTask);
       this.taskDescription = '';
     });
+  }
+
+  onDoneClick(task: Task): void {
+    task.completed = true;
+    this.taskService.update(task).subscribe();
+  }
+
+  onEditClick(task: Task): void {
+    this.editing = true;
+    this.taskBeingEdited = task;
+    this.taskDescription = task.description;
+  }
+
+  onSaveClick(): void {
+    this.taskBeingEdited.description = this.taskDescription;
+    this.taskService.update(this.taskBeingEdited).subscribe(() => {
+      this.taskDescription = '';
+      this.taskBeingEdited = null;
+      this.editing = false;
+    });
+  }
+
+  onCancelEditClick(): void {
+    this.taskDescription = '';
+    this.taskBeingEdited = null;
+    this.editing = false;
   }
 }

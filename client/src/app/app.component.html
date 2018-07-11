@@ -4,13 +4,21 @@
   </h1>
   <div class="w-50">
     <input type="text" [(ngModel)]="taskDescription" class="form-control mb-1" placeholder="What do you want to do?" />
-    <button class="btn btn-primary mb-3" (click)="onAddClick()">Add Task</button>
+    <button *ngIf="!editing; else saveBtn" class="btn btn-primary mb-3" (click)="onAddClick()">Add Task</button>
+    <ng-template #saveBtn>
+      <button class="btn btn-primary mb-3" (click)="onSaveClick()">Save</button>
+      <button class="btn btn-link mb-3" (click)="onCancelEditClick()">Cancel</button>
+    </ng-template>
     <ul class="task-list list-group" *ngIf="tasks.length > 0; else noTasks">
       <li
-        class="task-item list-group-item"
+        class="task-item list-group-item d-flex justify-content-between align-items-center"
         [class.completed]="task.completed"
         *ngFor="let task of tasks">
         <span>{{task.description}}</span>
+        <div class="actions d-flex justify-content-right align-items-center">
+          <i *ngIf="!task.completed" class="material-icons" (click)="onDoneClick(task)">done</i>
+          <i class="material-icons" (click)="onEditClick(task)">edit</i>
+        </div>
       </li>
     </ul>
     <ng-template #noTasks>
