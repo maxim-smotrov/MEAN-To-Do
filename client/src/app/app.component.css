@@ -1,0 +1,4 @@
+.task-list .task-item.completed span {
+  color: #838383;
+  text-decoration: #616161 line-through;
+}
