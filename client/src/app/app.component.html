@@ -3,7 +3,9 @@
     Tasks
   </h1>
   <div class="w-50">
-    <ul class="task-list list-group">
+    <input type="text" [(ngModel)]="taskDescription" class="form-control mb-1" placeholder="What do you want to do?" />
+    <button class="btn btn-primary mb-3" (click)="onAddClick()">Add Task</button>
+    <ul class="task-list list-group" *ngIf="tasks.length > 0; else noTasks">
       <li
         class="task-item list-group-item"
         [class.completed]="task.completed"
@@ -11,5 +13,8 @@
         <span>{{task.description}}</span>
       </li>
     </ul>
+    <ng-template #noTasks>
+      <h4>Dobby is free!</h4>
+    </ng-template>
   </div>
 </div>

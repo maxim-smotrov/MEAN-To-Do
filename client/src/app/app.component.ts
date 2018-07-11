@@ -10,6 +10,7 @@ import Task from './models/task';
 export class AppComponent {
   title = 'MEAN To Do';
   tasks: Task[] = [];
+  taskDescription: string;
 
   constructor(
     private taskService: TaskService,
@@ -17,5 +18,13 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.taskService.getAll().subscribe(tasks => this.tasks = tasks);
+  }
+
+  onAddClick(): void {
+    const task: Task = { description: this.taskDescription, completed: false };
+    this.taskService.create(task).subscribe(() => {
+      this.tasks.unshift(task);
+      this.taskDescription = '';
+    });
   }
 }
