@@ -35,6 +35,11 @@ export class AppComponent implements OnInit {
     this.taskService.update(task).subscribe();
   }
 
+  onUndoClick(task: Task): void {
+    task.completed = false;
+    this.taskService.update(task).subscribe();
+  }
+
   onEditClick(task: Task): void {
     this.editing = true;
     this.taskBeingEdited = task;
