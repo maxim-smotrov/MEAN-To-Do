@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TaskService } from './services/task.service';
-import Task from './models/task';
+import { Task } from './models/task';
+import { Observable } from '../../node_modules/rxjs';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,10 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.getTasks();
+  }
+
+  getTasks(): void {
     this.taskService.getAll().subscribe(tasks => this.tasks = tasks);
   }
 
@@ -27,17 +32,18 @@ export class AppComponent implements OnInit {
     this.taskService.create(task).subscribe((createdTask) => {
       this.tasks.unshift(createdTask);
       this.taskDescription = '';
+      this.getTasks();
     });
   }
 
   onDoneClick(task: Task): void {
     task.completed = true;
-    this.taskService.update(task).subscribe();
+    this.taskService.update(task).subscribe(() => this.getTasks());
   }
 
   onUndoClick(task: Task): void {
     task.completed = false;
-    this.taskService.update(task).subscribe();
+    this.taskService.update(task).subscribe(() => this.getTasks());
   }
 
   onEditClick(task: Task): void {
@@ -64,6 +70,6 @@ export class AppComponent implements OnInit {
   onDeleteClick(task: Task): void {
     const taskIndex = this.tasks.indexOf(task);
     this.tasks.splice(taskIndex, 1);
-    this.taskService.delete(task._id).subscribe();
+    this.taskService.delete(task._id).subscribe(() => this.getTasks());
   }
 }

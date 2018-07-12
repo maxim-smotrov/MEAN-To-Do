@@ -2,11 +2,14 @@ import { TestBed, getTestBed, async } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
+import { CompletedPipe } from './pipes/completed.pipe';
+
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
+        CompletedPipe
       ],
       imports: [
         HttpClientTestingModule,

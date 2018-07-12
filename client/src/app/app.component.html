@@ -3,26 +3,58 @@
     Tasks
   </h1>
   <div class="w-50">
-    <input type="text" [(ngModel)]="taskDescription" class="form-control mb-1" placeholder="What do you want to do?" />
-    <button *ngIf="!editing; else saveBtn" class="btn btn-primary mb-3" (click)="onAddClick()">Add Task</button>
+    <input
+      type="text"
+      class="form-control mb-1"
+      placeholder="What do you want to do?"
+      [(ngModel)]="taskDescription"
+      (keydown.enter)="desc.invalid || (editing ? onSaveClick() : onAddClick())"
+      required
+      #desc="ngModel"
+    />
+    <button *ngIf="!editing; else saveBtn" [disabled]="desc.invalid" class="btn btn-primary mb-3" (click)="onAddClick()">Add Task</button>
     <ng-template #saveBtn>
-      <button class="btn btn-primary mb-3" (click)="onSaveClick()">Save</button>
+      <button class="btn btn-primary mb-3" [disabled]="desc.invalid" (click)="onSaveClick()">Save</button>
       <button class="btn btn-link mb-3" (click)="onCancelEditClick()">Cancel</button>
     </ng-template>
-    <ul class="task-list list-group" *ngIf="tasks.length > 0; else noTasks">
-      <li
-        class="task-item list-group-item d-flex justify-content-between align-items-center"
-        [class.completed]="task.completed"
-        *ngFor="let task of tasks">
-        <span>{{task.description}}</span>
-        <div class="actions d-flex justify-content-right align-items-center">
-          <i *ngIf="!task.completed" class="material-icons" (click)="onDoneClick(task)">done</i>
-          <i *ngIf="task.completed" class="material-icons" (click)="onUndoClick(task)">undo</i>
-          <i class="material-icons" (click)="onEditClick(task)">edit</i>
-          <i class="material-icons" (click)="onDeleteClick(task)">delete</i>
+    <div>
+      <ul class="task-list list-group" *ngIf="(tasks | completed:true).length > 0; else noTasks">
+        <li
+          class="task-item list-group-item d-flex justify-content-between align-items-center"
+          [class.completed]="task.completed"
+          *ngFor="let task of tasks | completed:true">
+          <span>{{task.description}}</span>
+          <div class="actions d-flex justify-content-right align-items-center">
+            <i *ngIf="!task.completed" class="material-icons" (click)="onDoneClick(task)">done</i>
+            <i *ngIf="task.completed" class="material-icons" (click)="onUndoClick(task)">undo</i>
+            <i class="material-icons" (click)="onEditClick(task)">edit</i>
+            <i class="material-icons" (click)="onDeleteClick(task)">delete</i>
+          </div>
+        </li>
+      </ul>
+      <div *ngIf="(tasks | completed:false).length > 0" class="mt-5 mb-2 d-flex justify-content-between align-items-center" (click)="collapsed = !collapsed">
+        <h6>Completed</h6>
+        <div class="d-flex align-items-center">
+          <span class="badge badge-primary">{{(tasks | completed:false).length}}</span>
+          <i *ngIf="collapsed" class="material-icons">expand_more</i>
+          <i *ngIf="!collapsed" class="material-icons">expand_less</i>
         </div>
-      </li>
-    </ul>
+      </div>
+      <ul *ngIf="collapsed" class="task-list list-group">
+          <li
+            class="task-item list-group-item d-flex justify-content-between align-items-center"
+            [class.completed]="task.completed"
+            *ngFor="let task of tasks | completed:false">
+            <span>{{task.description}}</span>
+            <div class="actions d-flex justify-content-right align-items-center">
+              <i *ngIf="!task.completed" class="material-icons" (click)="onDoneClick(task)">done</i>
+              <i *ngIf="task.completed" class="material-icons" (click)="onUndoClick(task)">undo</i>
+              <i class="material-icons" (click)="onEditClick(task)">edit</i>
+              <i class="material-icons" (click)="onDeleteClick(task)">delete</i>
+            </div>
+          </li>
+        </ul>
+    </div>
     <ng-template #noTasks>
       <h4>Dobby is free!</h4>
     </ng-template>
