@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Task = mongoose.model('Task');
 
-const getAll = (req, res) => Task.find()
+const getAll = (req, res) => Task.find(req.query)
   .sort({ completed: 'asc', dateUpdated: 'desc' })
   .then(tasks => res.json(tasks))
   .catch(err => res.status(500).json(err));
