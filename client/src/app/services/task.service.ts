@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from '../../../node_modules/rxjs';
+import { Observable } from 'rxjs';
 import Task from '../models/task';
 
 const httpOptions = {
@@ -25,5 +25,9 @@ export class TaskService {
 
   update(task: Task): Observable<void> {
     return this.http.put<void>(`${this.tasksRoot}/${task._id}`, task, httpOptions);
+  }
+
+  delete(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.tasksRoot}/${id}`);
   }
 }

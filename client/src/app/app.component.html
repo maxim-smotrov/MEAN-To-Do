@@ -18,6 +18,7 @@
         <div class="actions d-flex justify-content-right align-items-center">
           <i *ngIf="!task.completed" class="material-icons" (click)="onDoneClick(task)">done</i>
           <i class="material-icons" (click)="onEditClick(task)">edit</i>
+          <i class="material-icons" (click)="onDeleteClick(task)">delete</i>
         </div>
       </li>
     </ul>

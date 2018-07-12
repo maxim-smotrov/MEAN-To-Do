@@ -55,4 +55,10 @@ export class AppComponent implements OnInit {
     this.taskBeingEdited = null;
     this.editing = false;
   }
+
+  onDeleteClick(task: Task): void {
+    const taskIndex = this.tasks.indexOf(task);
+    this.tasks.splice(taskIndex, 1);
+    this.taskService.delete(task._id).subscribe();
+  }
 }

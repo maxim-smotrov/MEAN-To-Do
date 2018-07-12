@@ -1,5 +1,6 @@
 import { TestBed, getTestBed, async } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -8,7 +9,8 @@ describe('AppComponent', () => {
         AppComponent,
       ],
       imports: [
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        FormsModule,
       ],
     }).compileComponents();
   }));
