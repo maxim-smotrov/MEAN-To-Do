@@ -15,3 +15,7 @@
   color: #007bff;
   cursor: pointer;
 }
+
+.task-list-header {
+  cursor: pointer;
+}
