@@ -19,6 +19,12 @@ export class TaskService {
     return this.http.get<Task[]>(this.tasksRoot);
   }
 
+  find(query: { [key: string]: string }): Observable<Task[]> {
+    return this.http.get<Task[]>(this.tasksRoot, {
+      params: query,
+    });
+  }
+
   create(task: Task): Observable<Task> {
     return this.http.post<Task>(this.tasksRoot, task, httpOptions);
   }

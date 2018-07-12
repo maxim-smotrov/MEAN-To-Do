@@ -1,7 +1,9 @@
 import { TestBed, getTestBed, async } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
+import { TagInputModule } from 'ngx-chips';
 import { AppComponent } from './app.component';
+import { TagsComponent } from './components/tags/tags.component';
 import { CompletedPipe } from './pipes/completed.pipe';
 
 describe('AppComponent', () => {
@@ -9,11 +11,13 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
+        TagsComponent,
         CompletedPipe
       ],
       imports: [
         HttpClientTestingModule,
         FormsModule,
+        TagInputModule
       ],
     }).compileComponents();
   }));

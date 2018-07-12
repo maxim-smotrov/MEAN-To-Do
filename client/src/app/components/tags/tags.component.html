@@ -1,0 +1,11 @@
+<div class="d-flex justify-content-between w-50 align-items-start">
+  <h1 class="mb-4">
+    Tags
+  </h1>
+  <button *ngIf="selectedTag" class="btn btn-outline-primary mt-2" (click)="onResetClick()">Reset</button>
+</div>
+<div *ngIf="tags.length > 0" class="tag-list w-50">
+  <div *ngFor="let tag of tags" (click)="onTagSelect(tag)" class="tag-item mr-2 mb-2 d-inline-flex">
+    <span class="badge p-2" [class.badge-secondary]="selectedTag !== tag" [class.badge-primary]="selectedTag === tag">{{tag}}</span>
+  </div>
+</div>
